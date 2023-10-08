@@ -1,0 +1,23 @@
+{
+    "name": "alex-thomas-portfolio",
+    "source": "src/index.html",
+    "browserslist": "> 0.1%, last 5 versions, not dead",
+    "scripts": {
+        "start": "npx parcel",
+        "build": "npx parcel build"
+    },
+    "devDependencies": {
+        "@tailwindcss/typography": "latest",
+        "@types/react": "latest",
+        "@types/react-dom": "latest",
+        "parcel": "latest",
+        "postcss": "latest",
+        "tailwindcss": "latest",
+        "typescript": "latest"
+    },
+    "dependencies": {
+        "@fontsource/clear-sans": "latest",
+        "react": "latest",
+        "react-dom": "latest"
+    }
+}
