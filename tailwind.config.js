@@ -8,6 +8,9 @@ module.exports = {
         fontFamily: {
           'sans': ['"Clear Sans"', ...defaultTheme.fontFamily.sans]
         },
+        colors: {
+            themeBlue: '#073b74'
+        }
     },
   },
   plugins: [

@@ -8,10 +8,12 @@
     },
     "devDependencies": {
         "@tailwindcss/typography": "latest",
+        "@types/node": "^20.8.3",
         "@types/react": "latest",
         "@types/react-dom": "latest",
         "parcel": "latest",
         "postcss": "latest",
+        "process": "latest",
         "tailwindcss": "latest",
         "typescript": "latest"
     },
