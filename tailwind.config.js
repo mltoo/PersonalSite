@@ -9,7 +9,7 @@ module.exports = {
           'sans': ['"Clear Sans"', ...defaultTheme.fontFamily.sans]
         },
         colors: {
-            themeBlue: '#073b74'
+            themeBlue: '#053265'
         }
     },
   },
