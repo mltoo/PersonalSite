@@ -9,13 +9,11 @@ const contacts : contact[] = [
 
 export default function Contact() {
     
-    return <div className="flex flex-col text-xs leading-snug mt-5">
-        {contacts.map((contact, index) => <div key={index} className="flex justify-end items-center">
-                <span style={{order: 2*index}} className="px-1 place-self-baseline">
-                    <a href={contact[1] ? contact[1] : contact[0]}>{contact[0]}</a>
-                </span>         
+    return <div className="flex flex-col text-xs leading-snug mt-5 items-end">
+        {contacts.map((contact, index) => <a key={index} className="flex justify-end items-center w-fit" href={contact[1] ? contact[1] : contact[0]}>
+                <span style={{order: 2*index}} className="px-1 place-self-baseline" >{contact[0]}</span>
                 <img style={{order: 2*index+1}} className="w-2.5 h-2.5" src={contact[2]}/>
-            </div>)
+            </a>)
         }
     </div>
 }
