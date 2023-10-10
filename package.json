@@ -7,18 +7,24 @@
         "build": "npx parcel build"
     },
     "devDependencies": {
+        "@babel/core": "^7.23.0",
         "@tailwindcss/typography": "latest",
         "@types/node": "^20.8.3",
         "@types/react": "latest",
         "@types/react-dom": "latest",
+        "buffer": "^6.0.3",
+        "os-browserify": "^0.3.0",
         "parcel": "latest",
+        "path-browserify": "^1.0.1",
         "postcss": "latest",
         "process": "latest",
         "tailwindcss": "latest",
-        "typescript": "latest"
+        "typescript": "latest",
+        "util": "^0.12.5"
     },
     "dependencies": {
         "@fontsource/clear-sans": "latest",
+        "babel-plugin-preval": "^5.1.0",
         "react": "latest",
         "react-dom": "latest"
     }

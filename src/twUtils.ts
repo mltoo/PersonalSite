@@ -1,8 +1,11 @@
-import resolveConfig from 'tailwindcss/resolveConfig';
-import twConfig from '../tailwind.config';
 import React from 'react';
+import preval from 'babel-plugin-preval/macro';
 
-const fullConfig: any = resolveConfig(twConfig);
+const fullConfig: any = preval`
+    resolveConfig = require('tailwindcss/resolveConfig');
+    twConfig = require('../tailwind.config');
+    module.exports = resolveConfig(twConfig)
+`;
 
 export function getActiveTWBreakpoints(): string[] {
     const screensStrings: {any: string} | null = fullConfig?.theme?.screens;
