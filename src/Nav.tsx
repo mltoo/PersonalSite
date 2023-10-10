@@ -49,7 +49,6 @@ export default React.forwardRef<HTMLDivElement, navProps>((props, ref) => {
         if (index == currentFocus)
             setFocusItemDim([width, height]);
     }
-    console.log(`index: ${currentSelect}`)
     return <nav ref={ref} onMouseLeave={handleMouseLeave} className={twMerge("transition-all absolute top-24 right-0", props.className)} style={{height: navItems.length*selectItemDim[1], ...props.style}}>
         <div 
         className="z-10 transition-all motion-reduce:transition-none absolute -right-2"

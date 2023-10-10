@@ -16,22 +16,8 @@ export default function Sidebar() {
     const [remSize, setRemSize] = React.useState(0);
     const [navSelHeight, setNavSelHeight] = React.useState(0);
     const [navSelPosn, setNavSelPosn] = React.useState(0);
-
-    function handleNavSelHeightChange(newNavSelHeight: number) {
-        setNavSelHeight(newNavSelHeight);
-    }
-
-    function handleNavSelPosnChange(newNavSelPosn: number) {
-        setNavSelPosn(newNavSelPosn);
-    }
-
-    function handleMouseEnter(){
-        console.log("HERE");
-    }
-
-    function handleMouseLeave() {
-        console.log("HERE");
-    }
+    const [currentBacklash, setCurrentBacklash] = React.useState(0);
+    const [headerTransitionOverride, setHeaderTransitionOverride] = React.useState(false);
 
     const navDims = useDimensions(navRef);
     const contactDims = useDimensions(contactGridRef);
@@ -43,6 +29,26 @@ export default function Sidebar() {
     const finalBottomPadding = 0.75*remSize;
     const preNavPadding = 6*remSize;
 
+    const maxBacklash = navDims.height - navSelHeight;
+
+    function handleNavSelHeightChange(newNavSelHeight: number) {
+        setNavSelHeight(newNavSelHeight);
+    }
+
+    function handleNavSelPosnChange(newNavSelPosn: number) {
+        setNavSelPosn(newNavSelPosn);
+    }
+
+    function handleMouseEnter(){
+        setCurrentBacklash(maxBacklash);
+        setHeaderTransitionOverride(true);
+    }
+
+    function handleMouseLeave() {
+        setCurrentBacklash(0);
+    }
+
+
     const initialHeight = (contactDims.height + navDims.height + initialTopPadding + preNavPadding + initialBottomPadding);
     const finalHeight = finalTopPadding + finalBottomPadding + nameDims.height;
     const targetScrollPosition = initialHeight - finalHeight
@@ -51,6 +57,7 @@ export default function Sidebar() {
     React.useEffect(() => {
         function handleScrollChange() {
             setScrollPosition(window.scrollY);
+            setHeaderTransitionOverride(false);
         }
         window.addEventListener('scroll', handleScrollChange);
         
@@ -62,13 +69,12 @@ export default function Sidebar() {
     const scrollProgress = scrollPosition/targetScrollPosition;
 
     const currentTopPadding = lerp(initialTopPadding, finalTopPadding, scrollProgress);
-    console.log(navSelPosn);
     return <React.Fragment>
     <div ref={outerRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
-    className="bg-themeBlue box-content fixed top-0 right-0 left-0 md:fixed text-white text-right px-6 overflow-clip" 
+    className={`bg-themeBlue box-content fixed top-0 right-0 left-0 md:fixed text-white text-right px-6 overflow-clip ${headerTransitionOverride || scrollProgress >=1 ? 'transition-all' : 'transition-none'}`}
     style={{
         //height: `calc(${lerp(contactDims.height, 0, scrollProgress) + navDims.height}px + ${lerp(5,0,scrollProgress)}rem`,
-        height: Math.max(finalHeight, initialHeight-scrollPosition)
+        height: lerp(Math.max(finalHeight, initialHeight-scrollPosition), Math.max(finalHeight, initialHeight-scrollPosition)+currentBacklash, scrollProgress)
     }}>
         <div className="relative">
             <div className="absolute w-full text-right leading-none grid justify-items-end" ref={contactGridRef}
