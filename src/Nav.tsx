@@ -4,6 +4,8 @@ import NavItem from './NavItem';
 type navItem = [name: string];
 type navProps = {
     style?: object,
+    onNavSelHeightChange?: (newNavSelHeight: number) => void,
+    onNavSelPosnChange?: (newNavSelPosn: number) => void
 }
 
 export default React.forwardRef<HTMLDivElement, navProps>((props, ref) => {
@@ -31,11 +33,15 @@ export default React.forwardRef<HTMLDivElement, navProps>((props, ref) => {
     function handleItemClick(index: number, width: number, height: number): void {
         setCurrentSelect(index);
         setSelectItemDim([width, height]);
+        props.onNavSelHeightChange?.(height);
+        props.onNavSelPosnChange?.(index*height);
     }
 
     function handleItemDimChange(index: number, width: number, height: number): void {
         if (index == currentSelect)
             setSelectItemDim([width, height]);
+            props.onNavSelHeightChange?.(height);
+            props.onNavSelPosnChange?.(index*height);
         if (index == currentFocus)
             setFocusItemDim([width, height]);
     }
