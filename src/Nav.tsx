@@ -37,7 +37,7 @@ export default function Nav() {
             setFocusItemDim([width, height]);
     }
 
-    return <nav className="relative mt-16" style={{height: navItems.length*selectItemDim[1]}}>
+    return <nav className="relative mt-24" style={{height: navItems.length*selectItemDim[1]}}>
         <div className="z-10 transition-all motion-reduce:transition-none absolute -right-2 text-2xl pointer-events-none text-[#ffffff00]" style={{backdropFilter:'url(#themeBlue-invert)', height: focusItemDim[1], width: `calc(${focusItemDim[0]}px + 1rem)`, top: currentFocus * focusItemDim[1]}}>test</div>
         <svg className="h-0 w-0">
             <defs>
