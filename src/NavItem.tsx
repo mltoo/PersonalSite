@@ -42,7 +42,7 @@ export default function NavItem(props : NavItemProps) {
         }
     }, []);
 
-    return <div className="w-fit absolute z-0" style={{top: props.absoluteTop, right: props.absoluteRight}}onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={mainDiv}>
+    return <div className="w-max absolute z-0" style={{top: props.absoluteTop, right: props.absoluteRight}}onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={mainDiv}>
         {props.children}
     </div>;
 }
