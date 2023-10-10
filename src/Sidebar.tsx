@@ -32,6 +32,7 @@ export default function Sidebar() {
     const maxBacklash = Math.max(0, navDims.height - navSelHeight);
 
     function handleNavSelHeightChange(newNavSelHeight: number) {
+        setHeaderTransitionOverride(true);
         setNavSelHeight(newNavSelHeight);
     }
 
@@ -72,7 +73,7 @@ export default function Sidebar() {
 
     return <React.Fragment>
     <div ref={outerRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
-    className={`bg-themeBlue box-content fixed top-0 right-0 left-0 md:fixed text-white text-right px-6 overflow-clip ${headerTransitionOverride || scrollProgress >=1 ? 'transition-all' : 'transition-none'}`}
+    className={`bg-themeBlue box-content fixed top-0 right-0 left-0 md:fixed text-white text-right px-6 overflow-clip ${headerTransitionOverride ? 'transition-all' : 'transition-none'}`}
     style={{
         //height: `calc(${lerp(contactDims.height, 0, scrollProgress) + navDims.height}px + ${lerp(5,0,scrollProgress)}rem`,
         height: lerp(Math.max(finalHeight, initialHeight-scrollPosition), Math.max(finalHeight, initialHeight-scrollPosition)+currentBacklash, scrollProgress)
@@ -105,7 +106,7 @@ export default function Sidebar() {
                 }}
                 scale={lerp(1,0.4,scrollProgress)}/>
             </div>
-            <Nav ref={navRef} className={scrollProgress<1 ? 'transition-none' : ''} style={{
+            <Nav ref={navRef} className={!headerTransitionOverride ? 'transition-none' : ''} style={{
                 top: `${lerp(currentTopPadding + preNavPadding + contactDims.height, finalTopPadding + 0.5*(nameDims.height - navSelHeight) - lerp(navSelPosn, 0, maxBacklash && currentBacklash/maxBacklash), scrollProgress)}px`,
             }} onNavSelHeightChange={handleNavSelHeightChange} onNavSelPosnChange={handleNavSelPosnChange}/>
         </div>
