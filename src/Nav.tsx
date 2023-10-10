@@ -33,11 +33,20 @@ export default React.forwardRef<HTMLDivElement, navProps>((props, ref) => {
         setFocusItemDim(selectItemDim);
     }
 
-    function handleItemClick(): void {
+    function handleHighlightClick(): void {
         setCurrentSelect(currentFocus);
         setSelectItemDim(focusItemDim);
         props.onNavSelHeightChange?.(focusItemDim[1]);
         props.onNavSelPosnChange?.(currentFocus*focusItemDim[1]);
+    }
+    
+    function handleItemClick(index: number, width: number, height: number): void {
+        setCurrentSelect(index);
+        setCurrentFocus(index);
+        setSelectItemDim([width,height]);
+        setFocusItemDim([width,height]);
+        props.onNavSelHeightChange?.(height);
+        props.onNavSelPosnChange?.(index*height);
     }
 
     function handleItemDimChange(index: number, width: number, height: number): void {
@@ -53,7 +62,7 @@ export default React.forwardRef<HTMLDivElement, navProps>((props, ref) => {
         <div 
         className="z-10 transition-all motion-reduce:transition-none absolute -right-2"
         onMouseLeave={handleMouseLeave}
-        onClick={handleItemClick}
+        onClick={handleHighlightClick}
         style={{
             backdropFilter:'url(#themeBlue-invert)', 
             height: focusItemDim[1], 
@@ -76,7 +85,7 @@ export default React.forwardRef<HTMLDivElement, navProps>((props, ref) => {
         <div className="text-2xl">
             {navItems.map((item, index) => 
                 <NavItem key={index} index={index} 
-                onMouseEnter={handleMouseEnter} 
+                onMouseEnter={handleMouseEnter} onClick={handleItemClick}
                 onDimChange={handleItemDimChange} 
                 absoluteTop={index*selectItemDim[1]} absoluteRight={0}>
                     {item[0]} 
