@@ -25,6 +25,14 @@ export default function Sidebar() {
         setNavSelPosn(newNavSelPosn);
     }
 
+    function handleMouseEnter(){
+        console.log("HERE");
+    }
+
+    function handleMouseLeave() {
+        console.log("HERE");
+    }
+
     const navDims = useDimensions(navRef);
     const contactDims = useDimensions(contactGridRef);
     const nameDims = useDimensions(nameRef);
@@ -54,9 +62,10 @@ export default function Sidebar() {
     const scrollProgress = scrollPosition/targetScrollPosition;
 
     const currentTopPadding = lerp(initialTopPadding, finalTopPadding, scrollProgress);
-    console.log(navSelHeight);
+    console.log(navSelPosn);
     return <React.Fragment>
-    <div ref={outerRef} className="bg-themeBlue box-content fixed top-0 right-0 left-0 md:fixed text-white text-right px-6 overflow-clip" 
+    <div ref={outerRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
+    className="bg-themeBlue box-content fixed top-0 right-0 left-0 md:fixed text-white text-right px-6 overflow-clip" 
     style={{
         //height: `calc(${lerp(contactDims.height, 0, scrollProgress) + navDims.height}px + ${lerp(5,0,scrollProgress)}rem`,
         height: Math.max(finalHeight, initialHeight-scrollPosition)
@@ -89,7 +98,7 @@ export default function Sidebar() {
                 }}
                 scale={lerp(1,0.4,scrollProgress)}/>
             </div>
-            <Nav ref={navRef} style={{
+            <Nav ref={navRef} className={scrollProgress<1 ? 'transition-none' : ''} style={{
                 top: `${lerp(currentTopPadding + preNavPadding + contactDims.height, finalTopPadding + 0.5*(nameDims.height - navSelHeight) - navSelPosn, scrollProgress)}px`,
             }} onNavSelHeightChange={handleNavSelHeightChange} onNavSelPosnChange={handleNavSelPosnChange}/>
         </div>
@@ -97,7 +106,7 @@ export default function Sidebar() {
     {/*<div style={{height: `${Math.min(outerDims.height + scrollPosition, outerDims.height + targetScrollPosition)}px`}}/>*/}
     <div className="box-content"  style={{
         height: `${initialHeight}px`
-    }}>HELLO</div>
+    }}/>
     {/*<div className="sticky t-0 z-50" style={{
         height: `calc(${lerp(contactDims.height, 0, scrollProgress) + navDims.height}px + ${lerp(5,0,scrollProgress)}rem`,
     }}>TEST</div>*/}
