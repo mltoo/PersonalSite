@@ -56,6 +56,7 @@ export default function Sidebar() {
 
     React.useEffect(() => {
         function handleScrollChange() {
+            setCurrentBacklash(Math.max(0,Math.min(maxBacklash, -(window.scrollY - scrollPosition) + currentBacklash)));
             setScrollPosition(window.scrollY);
             setHeaderTransitionOverride(false);
         }
@@ -64,7 +65,7 @@ export default function Sidebar() {
         setRemSize(parseInt(getComputedStyle(document.documentElement).fontSize));
 
         return ()=>window.removeEventListener('scroll', handleScrollChange);
-    }, []);
+    }, [scrollPosition]);
     
     const scrollProgress = scrollPosition/targetScrollPosition;
 
