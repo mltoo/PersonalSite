@@ -106,7 +106,7 @@ export default function Sidebar() {
                 scale={lerp(1,0.4,scrollProgress)}/>
             </div>
             <Nav ref={navRef} className={scrollProgress<1 ? 'transition-none' : ''} style={{
-                top: `${lerp(currentTopPadding + preNavPadding + contactDims.height, finalTopPadding + 0.5*(nameDims.height - navSelHeight) - navSelPosn, scrollProgress)}px`,
+                top: `${lerp(currentTopPadding + preNavPadding + contactDims.height, finalTopPadding + 0.5*(nameDims.height - navSelHeight) - lerp(navSelPosn, 0, currentBacklash/maxBacklash), scrollProgress)}px`,
             }} onNavSelHeightChange={handleNavSelHeightChange} onNavSelPosnChange={handleNavSelPosnChange}/>
         </div>
     </div>
