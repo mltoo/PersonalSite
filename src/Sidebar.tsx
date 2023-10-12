@@ -38,11 +38,14 @@ export default function Sidebar(props: SidebarProps) {
     const maxBacklash = Math.max(0, navDims.height - navSelHeight);
 
     function handleNavSelHeightChange(newNavSelHeight: number) {
-        setHeaderTransitionOverride(true);
-        setNavSelHeight(newNavSelHeight);
+        if (newNavSelHeight != navSelHeight) {
+            setHeaderTransitionOverride(true);
+            setNavSelHeight(newNavSelHeight);
+        }
     }
 
     function handleNavSelPosnChange(newNavSelPosn: number) {
+        setHeaderTransitionOverride(true);
         setNavSelPosn(newNavSelPosn);
     }
 
@@ -59,7 +62,6 @@ export default function Sidebar(props: SidebarProps) {
     const initialHeight = (contactDims.height + navDims.height + initialTopPadding + preNavPadding + initialBottomPadding);
     const finalHeight = finalTopPadding + finalBottomPadding + nameDims.height;
     const targetScrollPosition = initialHeight - finalHeight
-    const activeBreakpoints = useTWBreakpoints();
 
     React.useEffect(() => {
         function handleScrollChange() {
@@ -72,7 +74,7 @@ export default function Sidebar(props: SidebarProps) {
         setRemSize(parseInt(getComputedStyle(document.documentElement).fontSize));
 
         return ()=>window.removeEventListener('scroll', handleScrollChange);
-    }, [scrollPosition]);
+    }, [scrollPosition, maxBacklash, currentBacklash]);
     const scrollProgress = scrollPosition/targetScrollPosition || 0;
 
     const currentTopPadding = lerp(initialTopPadding, finalTopPadding, scrollProgress);

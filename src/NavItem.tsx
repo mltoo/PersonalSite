@@ -39,8 +39,7 @@ export default function NavItem(props : NavItemProps) {
         return () => {
             observer.disconnect();
         }
-    }, [props, mainDiv]);
-
+    }, [mainDiv]);
     return <div className={`select-none w-max absolute lg:right-0 z-0 ${props.isSelected ? 'font-bold' : ''}`} style={{top: props.absoluteTop, right: props.absoluteRight, ...props.style}} onMouseEnter={handleMouseEnter} onClick={handleClick} ref={mainDiv}>
         {props.children}
     </div>;
