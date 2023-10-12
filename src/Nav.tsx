@@ -1,6 +1,7 @@
 import React from 'react';
 import NavItem from './NavItem';
 import { twMerge } from 'tailwind-merge';
+import { useMediaQueries } from './twUtils';
 
 type navItem = [name: string];
 type navProps = {
@@ -21,6 +22,7 @@ export default React.forwardRef<HTMLDivElement, navProps>((props, ref) => {
     const [focusItemDim, setFocusItemDim] = React.useState([0,0]);
     const [currentSelect, setCurrentSelect] = React.useState(0);
     const [selectItemDim, setSelectItemDim] = React.useState([0,0]);
+    const mq = useMediaQueries();
     function handleMouseEnter(index: number, width: number, height: number): void {
         if(index != currentFocus)
             props.onFocusChange?.();
@@ -58,7 +60,9 @@ export default React.forwardRef<HTMLDivElement, navProps>((props, ref) => {
         if (index == currentFocus)
             setFocusItemDim([width, height]);
     }
-    return <nav ref={ref} onMouseLeave={handleMouseLeave} className={twMerge("transition-all absolute top-24 right-0", props.className)} style={{height: navItems.length*selectItemDim[1], ...props.style}}>
+    return <nav ref={ref} onMouseLeave={handleMouseLeave} className={twMerge("transition-all absolute lg:relative lg:mt-24 right-0 text-2xl", props.className)} 
+        style={{height: mq<string|number>([navItems.length*selectItemDim[1], {lg:'auto'}]), ...props.style}}
+    >
         <div 
         className="z-10 transition-all motion-reduce:transition-none absolute -right-2"
         onMouseLeave={handleMouseLeave}
@@ -67,10 +71,12 @@ export default React.forwardRef<HTMLDivElement, navProps>((props, ref) => {
             backdropFilter:'url(#themeBlue-invert)', 
             height: focusItemDim[1], 
             width: `calc(${focusItemDim[0]}px + 1rem)`, 
-            top: currentFocus * focusItemDim[1]}}
-
+            top: currentFocus * focusItemDim[1],
+            gridRowStart: mq<string|number>(['auto', {lg: currentFocus+1}]),
+            gridColumnStart: mq<string|number>(['auto', {lg: 1}])
+        }}
         />
-        <svg className="h-0 w-0">
+        <svg className="h-0 w-0 lg:fixed">
             <defs>
                 <filter id="themeBlue-invert">
                     <feComponentTransfer colorInterpolationFilters='sRGB'>
@@ -82,15 +88,14 @@ export default React.forwardRef<HTMLDivElement, navProps>((props, ref) => {
                 </filter>
             </defs>
         </svg>
-        <div className="text-2xl">
-            {navItems.map((item, index) => 
-                <NavItem key={index} index={index} 
-                onMouseEnter={handleMouseEnter} onClick={handleItemClick}
-                onDimChange={handleItemDimChange} 
-                absoluteTop={index*selectItemDim[1]} absoluteRight={0}>
-                    {item[0]} 
-                </NavItem>)}
-        </div>
+        {navItems.map((item, index) => 
+            <NavItem key={index} index={index} 
+            onMouseEnter={handleMouseEnter} onClick={handleItemClick}
+            onDimChange={handleItemDimChange} 
+            absoluteTop={index*selectItemDim[1]} absoluteRight={0}
+            >
+                {item[0]} 
+            </NavItem>)}
     </nav>;
 });
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Contact from './Contact';
 import Nav from './Nav';
-import { useTWBreakpoints } from './twUtils';
+import { useMediaQueries, useTWBreakpoints } from './twUtils';
 import { lerp } from './animUtils';
 import useDimensions from './useDimensions';
 
@@ -11,6 +11,8 @@ export default function Sidebar() {
     const contactGridRef = React.useRef<HTMLDivElement>(null);
     const navRef = React.useRef(null);
     const nameRef = React.useRef(null);
+
+    const mq = useMediaQueries();
 
     const [scrollPosition, setScrollPosition] = React.useState(window.scrollY);
     const [remSize, setRemSize] = React.useState(0);
@@ -73,13 +75,13 @@ export default function Sidebar() {
 
     return <React.Fragment>
     <div ref={outerRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
-    className={`bg-themeBlue box-content fixed top-0 right-0 left-0 md:fixed text-white text-right px-6 overflow-clip ${headerTransitionOverride ? 'transition-all' : 'transition-none'}`}
+    className={`bg-themeBlue box-content fixed top-0 right-0 left-0 lg:right-auto lg:bottom-0 lg:pt-5 text-white text-right px-6 overflow-clip ${headerTransitionOverride ? 'transition-all' : 'transition-none'}`}
     style={{
         //height: `calc(${lerp(contactDims.height, 0, scrollProgress) + navDims.height}px + ${lerp(5,0,scrollProgress)}rem`,
-        height: lerp(Math.max(finalHeight, initialHeight-scrollPosition), Math.max(finalHeight, initialHeight-scrollPosition)+currentBacklash, scrollProgress)
+        height: mq<string|number>([lerp(Math.max(finalHeight, initialHeight-scrollPosition), Math.max(finalHeight, initialHeight-scrollPosition)+currentBacklash, scrollProgress), {lg: "auto"}])
     }}>
-        <div className="relative">
-            <div className="absolute w-full text-right leading-none grid justify-items-end" ref={contactGridRef}
+        <div className="relative lg:static">
+            <div className="absolute lg:static w-full text-right leading-none grid justify-items-end" ref={contactGridRef}
             style={{
                 gridTemplateColumns: `${lerp(1,0,scrollProgress)}fr auto ${lerp(0,1,scrollProgress)}fr`,
                 top: currentTopPadding
@@ -87,28 +89,34 @@ export default function Sidebar() {
                 <div ref={nameRef}
                 className="text-5xl w-min font-black mb-2 col-start-2" 
                 style={{
-                    fontSize: `${lerp(3,1.15, scrollProgress)}rem`,
+                    ...mq([{
+                        fontSize: `${lerp(3,1.15, scrollProgress)}rem`
+                    }, {lg:{}}])
                 }}>
                     Alexander Thomas
                 </div>
-                <div className="text-base font-black col-start-2 row-start-2 leading-"
+                <div className="text-base font-black col-start-2 row-start-2 leading-tight"
                 style={{
-                    fontSize: `${lerp(1,0.4,scrollProgress)}rem`,
-                    lineHeight: `${lerp(1.2, 0.75, scrollProgress)}rem`,
-                    opacity: `${lerp(1,0,scrollProgress)}`
+                    ...mq([{
+                        fontSize: `${lerp(1,0.4,scrollProgress)}rem`,
+                        lineHeight: `${lerp(1.2, 0.75, scrollProgress)}rem`,
+                        opacity: `${lerp(1,0,scrollProgress)}`
+                    }, {lg: {}}])
                 }}>
                     MEng Computer Science<br/>
                     Graduate
                 </div>
                 <Contact className="row-start-3 col-start-2"
                 style= {{
-                    opacity: `${lerp(1,0,scrollProgress)}`,
+                    ...mq([{
+                        opacity: `${lerp(1,0,scrollProgress)}`,
+                    }, {lg:{}}])
                 }}
-                scale={lerp(1,0.4,scrollProgress)}/>
+                scale={mq([lerp(1,0.4,scrollProgress), {lg: 1}])}/>
             </div>
-            <Nav ref={navRef} className={!headerTransitionOverride ? 'transition-none' : ''} style={{
+            <Nav ref={navRef} className={!headerTransitionOverride ? 'transition-none' : ''} style={mq([{
                 top: `${lerp(currentTopPadding + preNavPadding + contactDims.height, finalTopPadding + 0.5*(nameDims.height - navSelHeight) - lerp(navSelPosn, 0, maxBacklash && currentBacklash/maxBacklash), scrollProgress)}px`,
-            }} onNavSelHeightChange={handleNavSelHeightChange} onNavSelPosnChange={handleNavSelPosnChange}/>
+            }, {lg:[]}])} onNavSelHeightChange={handleNavSelHeightChange} onNavSelPosnChange={handleNavSelPosnChange}/>
         </div>
     </div>
     {/*<div style={{height: `${Math.min(outerDims.height + scrollPosition, outerDims.height + targetScrollPosition)}px`}}/>*/}

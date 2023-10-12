@@ -5,6 +5,7 @@ type NavItemProps = {
     index: number,
     absoluteTop: number,
     absoluteRight: number,
+    style?: object
     onMouseEnter?: (index: number, width: number, height: number) => void,
     onDimChange?: (index: number, width: number, height: number) => void,
     onClick?: (index: number, width: number, height: number) => void
@@ -39,7 +40,7 @@ export default function NavItem(props : NavItemProps) {
         }
     }, []);
 
-    return <div className="w-max absolute z-0" style={{top: props.absoluteTop, right: props.absoluteRight}} onMouseEnter={handleMouseEnter} onClick={handleClick} ref={mainDiv}>
+    return <div className="w-max absolute lg:right-0 z-0" style={{top: props.absoluteTop, right: props.absoluteRight, ...props.style}} onMouseEnter={handleMouseEnter} onClick={handleClick} ref={mainDiv}>
         {props.children}
     </div>;
 }
