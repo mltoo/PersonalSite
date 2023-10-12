@@ -4,9 +4,13 @@ import Nav from './Nav';
 import { useMediaQueries, useTWBreakpoints } from './twUtils';
 import { lerp } from './animUtils';
 import useDimensions from './useDimensions';
+import { twMerge } from 'tailwind-merge';
 
+type SidebarProps = {
+    className?: string
+}
 
-export default function Sidebar() {
+export default function Sidebar(props: SidebarProps) {
     const outerRef = React.useRef<HTMLDivElement>(null);
     const contactGridRef = React.useRef<HTMLDivElement>(null);
     const navRef = React.useRef(null);
@@ -75,17 +79,19 @@ export default function Sidebar() {
 
     return <React.Fragment>
     <div ref={outerRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
-    className={`bg-themeBlue box-content fixed top-0 right-0 left-0 lg:right-auto lg:bottom-0 lg:pt-5 text-white text-right px-6 overflow-clip ${headerTransitionOverride ? 'transition-all' : 'transition-none'}`}
-    style={{
+    className={twMerge(`bg-themeBlue box-content fixed top-0 right-0 left-0 lg:sticky lg:box-border lg:h-screen lg:pt-5 text-white text-right px-6 overflow-clip ${headerTransitionOverride ? 'transition-all' : 'transition-none'}`, props.className)}
+    style={mq([{
         //height: `calc(${lerp(contactDims.height, 0, scrollProgress) + navDims.height}px + ${lerp(5,0,scrollProgress)}rem`,
-        height: mq<string|number>([lerp(Math.max(finalHeight, initialHeight-scrollPosition), Math.max(finalHeight, initialHeight-scrollPosition)+currentBacklash, scrollProgress), {lg: "auto"}])
-    }}>
+        height: lerp(Math.max(finalHeight, initialHeight-scrollPosition), Math.max(finalHeight, initialHeight-scrollPosition)+currentBacklash, scrollProgress)
+    }, {lg:{
+        gridRow: 'span 1 / span 1' 
+    }}])}>
         <div className="relative lg:static">
             <div className="absolute lg:static w-full text-right leading-none grid justify-items-end" ref={contactGridRef}
-            style={{
+            style={mq([{
                 gridTemplateColumns: `${lerp(1,0,scrollProgress)}fr auto ${lerp(0,1,scrollProgress)}fr`,
                 top: currentTopPadding
-            }}>
+            }, {lg:{}}])}>
                 <div ref={nameRef}
                 className="text-5xl w-min font-black mb-2 col-start-2" 
                 style={{
@@ -119,12 +125,8 @@ export default function Sidebar() {
             }, {lg:[]}])} onNavSelHeightChange={handleNavSelHeightChange} onNavSelPosnChange={handleNavSelPosnChange}/>
         </div>
     </div>
-    {/*<div style={{height: `${Math.min(outerDims.height + scrollPosition, outerDims.height + targetScrollPosition)}px`}}/>*/}
-    <div className="box-content"  style={{
+    {mq([<div className="box-content"  style={{
         height: `${initialHeight}px`
-    }}/>
-    {/*<div className="sticky t-0 z-50" style={{
-        height: `calc(${lerp(contactDims.height, 0, scrollProgress) + navDims.height}px + ${lerp(5,0,scrollProgress)}rem`,
-    }}>TEST</div>*/}
+    }}/>, {lg: null}])}
     </React.Fragment>;
 }
