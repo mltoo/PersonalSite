@@ -5,8 +5,9 @@ type NavItemProps = {
     index: number,
     absoluteTop: number,
     absoluteRight: number,
+    isSelected: boolean,
+    style?: object
     onMouseEnter?: (index: number, width: number, height: number) => void,
-    onMouseLeave?: (index: number) => void,
     onDimChange?: (index: number, width: number, height: number) => void,
     onClick?: (index: number, width: number, height: number) => void
 };
@@ -18,14 +19,12 @@ export default function NavItem(props : NavItemProps) {
             props.onMouseEnter?.(props.index, mainDiv.current.clientWidth, mainDiv.current.clientHeight);
     }
     
-    function handleMouseLeave() {
-        props.onMouseLeave?.(props.index);
-    }
-
     function handleClick() {
-        if (mainDiv.current)
-            props.onMouseEnter?.(props.index, mainDiv.current.clientWidth, mainDiv.current.clientHeight);
+        if(mainDiv.current)
+            props.onClick?.(props.index, mainDiv.current.clientWidth, mainDiv.current.clientHeight);
     }
+    
+
 
     React.useEffect(() => {
         if (!mainDiv.current) return;
@@ -40,9 +39,8 @@ export default function NavItem(props : NavItemProps) {
         return () => {
             observer.disconnect();
         }
-    }, []);
-
-    return <div className="w-fit absolute z-0" style={{top: props.absoluteTop, right: props.absoluteRight}}onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={mainDiv}>
+    }, [mainDiv]);
+    return <div className={`select-none w-max absolute lg:right-0 z-0 ${props.isSelected ? 'font-bold' : ''}`} style={{top: props.absoluteTop, right: props.absoluteRight, ...props.style}} onMouseEnter={handleMouseEnter} onClick={handleClick} ref={mainDiv}>
         {props.children}
     </div>;
 }
