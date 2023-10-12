@@ -16,8 +16,9 @@ export function App() {
             grimTemplateColumns: "1fr auto 1fr"
             }
     }])}>
-        <Sidebar className='lg:col-start-1 lg:row-start-1 lg:row-end-1'/>
-        <div className='min-h-[150vh] lg:min-h-auto px-4 pt-4 lg:w-[45rem] xl:[55rem] lg:col-start-2 lg:row-start-1 lg:row-end-1'>
+        <Sidebar className='lg:col-start-1 lg:row-start-1 lg:row-end-1 lg:pt-6'/>
+        <div className='min-h-[150vh] lg:min-h-[auto] px-4 pt-6 lg:w-[45rem] xl:[55rem] lg:col-start-2 lg:row-start-1 lg:row-end-1'>
+            <span className="text-5xl font-bold">👋 Hello there!</span>
         </div>
     </div>;
 
