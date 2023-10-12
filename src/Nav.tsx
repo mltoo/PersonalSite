@@ -89,7 +89,7 @@ export default React.forwardRef<HTMLDivElement, navProps>((props, ref) => {
             </defs>
         </svg>
         {navItems.map((item, index) => 
-            <NavItem key={index} index={index} 
+            <NavItem key={index} index={index} isSelected={index === currentSelect}
             onMouseEnter={handleMouseEnter} onClick={handleItemClick}
             onDimChange={handleItemDimChange} 
             absoluteTop={index*selectItemDim[1]} absoluteRight={0}

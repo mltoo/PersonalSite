@@ -8,7 +8,7 @@ import "@fontsource/clear-sans";
 const container = document.getElementById("react-container");
 if (container != null) {
     const root = createRoot(container);
-    root.render(<App/>);
+    root.render(<React.StrictMode><App/></React.StrictMode>);
 } else {
     console.error("Could not get 'react-container' element!");
 }

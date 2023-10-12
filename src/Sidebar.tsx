@@ -81,7 +81,6 @@ export default function Sidebar(props: SidebarProps) {
     <div ref={outerRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
     className={twMerge(`bg-themeBlue box-content fixed top-0 right-0 left-0 lg:sticky lg:box-border lg:h-screen lg:pt-5 text-white text-right px-6 overflow-clip ${headerTransitionOverride ? 'transition-all' : 'transition-none'}`, props.className)}
     style={mq([{
-        //height: `calc(${lerp(contactDims.height, 0, scrollProgress) + navDims.height}px + ${lerp(5,0,scrollProgress)}rem`,
         height: lerp(Math.max(finalHeight, initialHeight-scrollPosition), Math.max(finalHeight, initialHeight-scrollPosition)+currentBacklash, scrollProgress)
     }, {lg:{
         gridRow: 'span 1 / span 1' 
@@ -94,39 +93,48 @@ export default function Sidebar(props: SidebarProps) {
             }, {lg:{}}])}>
                 <div ref={nameRef}
                 className="text-5xl w-min font-black mb-2 col-start-2" 
-                style={{
-                    ...mq([{
+                style={mq([{
                         fontSize: `${lerp(3,1.15, scrollProgress)}rem`
-                    }, {lg:{}}])
-                }}>
+                    }, 
+                    {lg:{}}
+                ])}>
                     Alexander Thomas
                 </div>
                 <div className="text-base font-black col-start-2 row-start-2 leading-tight"
-                style={{
-                    ...mq([{
+                style={mq([{
                         fontSize: `${lerp(1,0.4,scrollProgress)}rem`,
                         lineHeight: `${lerp(1.2, 0.75, scrollProgress)}rem`,
                         opacity: `${lerp(1,0,scrollProgress)}`
-                    }, {lg: {}}])
-                }}>
+                    }, 
+                    {lg: {}}
+                ])}>
                     MEng Computer Science<br/>
                     Graduate
                 </div>
                 <Contact className="row-start-3 col-start-2"
-                style= {{
-                    ...mq([{
+                style= {mq([{
                         opacity: `${lerp(1,0,scrollProgress)}`,
-                    }, {lg:{}}])
-                }}
+                    }, 
+                    {lg:{}}
+                ])}
                 scale={mq([lerp(1,0.4,scrollProgress), {lg: 1}])}/>
             </div>
-            <Nav ref={navRef} className={!headerTransitionOverride ? 'transition-none' : ''} style={mq([{
-                top: `${lerp(currentTopPadding + preNavPadding + contactDims.height, finalTopPadding + 0.5*(nameDims.height - navSelHeight) - lerp(navSelPosn, 0, maxBacklash && currentBacklash/maxBacklash), scrollProgress)}px`,
-            }, {lg:[]}])} onNavSelHeightChange={handleNavSelHeightChange} onNavSelPosnChange={handleNavSelPosnChange}/>
+            <Nav ref={navRef} className={!headerTransitionOverride ? 'transition-none' : ''} 
+                onNavSelHeightChange={handleNavSelHeightChange} onNavSelPosnChange={handleNavSelPosnChange} 
+                style={mq([{
+                    top: `${lerp(currentTopPadding + preNavPadding + contactDims.height, finalTopPadding + 0.5*(nameDims.height - navSelHeight) - lerp(navSelPosn, 0, maxBacklash && currentBacklash/maxBacklash), scrollProgress)}px`,
+                }, 
+                {lg:[]}
+                ])}
+            />
         </div>
     </div>
-    {mq([<div className="box-content"  style={{
-        height: `${initialHeight}px`
-    }}/>, {lg: null}])}
+    {mq([
+            <div className="box-content"  style={{
+                height: `${initialHeight}px`
+            }}/>,
+            {lg: null}
+        ])
+    }
     </React.Fragment>;
 }

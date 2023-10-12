@@ -5,6 +5,7 @@ type NavItemProps = {
     index: number,
     absoluteTop: number,
     absoluteRight: number,
+    isSelected: boolean,
     style?: object
     onMouseEnter?: (index: number, width: number, height: number) => void,
     onDimChange?: (index: number, width: number, height: number) => void,
@@ -38,9 +39,9 @@ export default function NavItem(props : NavItemProps) {
         return () => {
             observer.disconnect();
         }
-    }, []);
+    }, [props, mainDiv]);
 
-    return <div className="w-max absolute lg:right-0 z-0" style={{top: props.absoluteTop, right: props.absoluteRight, ...props.style}} onMouseEnter={handleMouseEnter} onClick={handleClick} ref={mainDiv}>
+    return <div className={`select-none w-max absolute lg:right-0 z-0 ${props.isSelected ? 'font-bold' : ''}`} style={{top: props.absoluteTop, right: props.absoluteRight, ...props.style}} onMouseEnter={handleMouseEnter} onClick={handleClick} ref={mainDiv}>
         {props.children}
     </div>;
 }
