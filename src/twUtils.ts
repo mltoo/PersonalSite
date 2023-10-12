@@ -47,3 +47,18 @@ export function useTWBreakpoints() {
     }, []);
     return activeBreakpoints;
 }
+
+export type JSMediaQuery<T> = [defaultVal: T, breakpoints?: {[bpName: string]: T}];
+export function useMediaQueries() {
+    const activeBreakpoints = useTWBreakpoints();
+
+    return <T>(query: JSMediaQuery<T>) => {
+        let retVal = query[0]
+        for (const breakpoint of activeBreakpoints || []) {
+            if (query[1] && breakpoint in query[1]){
+                retVal = query[1][breakpoint]; 
+            }
+        }
+        return retVal 
+    };
+}
